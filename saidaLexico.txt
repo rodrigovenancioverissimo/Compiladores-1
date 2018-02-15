@@ -1,0 +1,14 @@
+var - linha 1 - Palavra Reservada
+a - linha 1 - Identificador
+, - linha 1 - Simbolo Simples
+b - linha 1 - Identificador
+: - linha 1 - Simbolo Simples
+integer - linha 1 - Palavra Reservada
+if - linha 2 - Palavra Reservada
+a - linha 2 - Identificador
+then - linha 2 - Palavra Reservada
+a - linha 2 - Identificador
+:= - linha 2 - Simbolo Duplo
+a - linha 2 - Identificador
++ - linha 2 - Simbolo Simples
+b - linha 2 - Identificador
