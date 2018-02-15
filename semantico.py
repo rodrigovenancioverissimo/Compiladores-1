@@ -2,7 +2,7 @@ import numpy as np
 
 tokens = list()
 linhaToken = 0
-tabelaDeSimbolos = {"":""}
+tabelaDeSimbolos = dict()
 msg = ""
 posicoes = list()
 
