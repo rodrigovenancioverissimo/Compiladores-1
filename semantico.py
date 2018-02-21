@@ -106,8 +106,12 @@ class semantico(object):
 
     def S(self):
         print("Função S")
-        global tokens, linhaToken
+        global tokens, linhaToken, posicoes
+        posicoes.clear()
         if(tokens[linhaToken][2] == "ID"):
+            self.buscar(tokens[linhaToken])
+            print(tokens[linhaToken])
+            posicoes.append(tokens[linhaToken][0])
             self.linhaToken()
             if(tokens[linhaToken][0] == ":="):
                 self.linhaToken()
@@ -129,6 +133,9 @@ class semantico(object):
         print("Função T")
         global tokens, linhaToken
         if(tokens[linhaToken][2] == "ID"):
+            self.buscar(tokens[linhaToken])
+            print(tokens[linhaToken])
+            self.igualdade(tokens[linhaToken][0])
             self.linhaToken()
             return True
         return False
@@ -173,8 +180,26 @@ class semantico(object):
         msg += "-ID já declarada"
         return False
 
+    def buscar(self, token):
+        print("Função Buscar")
+        global tabelaDeSimbolos, msg, posicoes
+        key = token[0]
+        if (key in tabelaDeSimbolos):
+            return True
+        msg += "-ID não foi declarada"
+        return False
+
     def tipo(self, tipo):
         print("Função Tipo")
         global posicoes, tabelaDeSimbolos
         for p in posicoes:
             tabelaDeSimbolos[p][2] = tipo
+
+    def igualdade(self, key):
+        print("Função Igualdade")
+        global posicoes
+        print(posicoes)
+        if (tabelaDeSimbolos[key][2] == posicoes[0]):
+            return True
+        msg += "-Tipos diferentes"
+        return False
