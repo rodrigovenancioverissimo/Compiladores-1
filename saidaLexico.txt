@@ -4,11 +4,15 @@ a - linha 1 - Identificador
 b - linha 1 - Identificador
 : - linha 1 - Simbolo Simples
 integer - linha 1 - Palavra Reservada
-if - linha 2 - Palavra Reservada
-a - linha 2 - Identificador
-then - linha 2 - Palavra Reservada
-a - linha 2 - Identificador
-:= - linha 2 - Simbolo Duplo
-a - linha 2 - Identificador
-+ - linha 2 - Simbolo Simples
-b - linha 2 - Identificador
+; - linha 1 - Simbolo Simples
+c - linha 2 - Identificador
+: - linha 2 - Simbolo Simples
+real - linha 2 - Palavra Reservada
+if - linha 3 - Palavra Reservada
+a - linha 3 - Identificador
+then - linha 3 - Palavra Reservada
+a - linha 3 - Identificador
+:= - linha 3 - Simbolo Duplo
+a - linha 3 - Identificador
++ - linha 3 - Simbolo Simples
+b - linha 3 - Identificador

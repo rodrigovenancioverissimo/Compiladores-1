@@ -1,2 +1,3 @@
-var a, b : integer
+var a, b : integer;
+c : real
 if a then a := a + b

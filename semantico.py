@@ -5,12 +5,14 @@ linhaToken = 0
 tabelaDeSimbolos = dict()
 msg = ""
 posicoes = list()
+firstID = False
+tipo = ""
 
 class semantico(object):
 
     def iniciar(self, caminhoArquivo):
         print("\nFunção iniciar")
-        global tokens, linhaToken
+        global tokens, linhaToken, tabelaDeSimbolos
         linhaToken = 0
         tokens = np.load(caminhoArquivo)
 
@@ -33,7 +35,8 @@ class semantico(object):
 
     def D(self):
         print("Função D")
-        global tokens, linhaToken
+        global tokens, linhaToken, posicoes
+        posicoes.clear()
         if(self.L()):
             if(tokens[linhaToken][0] == ":"):
                 self.linhaToken()
@@ -52,9 +55,8 @@ class semantico(object):
 
     def I(self):
         print("Função I")
-        global tokens, linhaToken, posicoes
+        global tokens, linhaToken
         if(tokens[linhaToken][0] == "var"):
-            posicoes.clear()
             self.linhaToken()
             if(self.D()):
                 return True
@@ -106,20 +108,21 @@ class semantico(object):
 
     def S(self):
         print("Função S")
-        global tokens, linhaToken, posicoes
-        posicoes.clear()
+        global tokens, linhaToken, tipo, firstID
+        tipo = ""
+        print("Tipo = ", tipo)
+        firstID = True
         if(tokens[linhaToken][2] == "ID"):
-            self.buscar(tokens[linhaToken])
-            print(tokens[linhaToken])
-            posicoes.append(tokens[linhaToken][0])
-            self.linhaToken()
-            if(tokens[linhaToken][0] == ":="):
-                self.linhaToken()
-                if(self.E()):
-                    if(tokens[linhaToken][0] == "then"):
+            if(self.buscar(tokens[linhaToken])):
+                if(self.igualdade(tokens[linhaToken])):
+                    self.linhaToken()
+                    if(tokens[linhaToken][0] == ":="):
                         self.linhaToken()
-                        return self.S()
-                    return True
+                        if(self.E()):
+                            if(tokens[linhaToken][0] == "then"):
+                                self.linhaToken()
+                                return self.S()
+                            return True
         elif(tokens[linhaToken][0] == "if"):
             self.linhaToken()
             if (self.E()):
@@ -133,11 +136,10 @@ class semantico(object):
         print("Função T")
         global tokens, linhaToken
         if(tokens[linhaToken][2] == "ID"):
-            self.buscar(tokens[linhaToken])
-            print(tokens[linhaToken])
-            self.igualdade(tokens[linhaToken][0])
-            self.linhaToken()
-            return True
+            if(self.buscar(tokens[linhaToken])):
+                if(self.igualdade(tokens[linhaToken])):
+                    self.linhaToken()
+                    return True
         return False
 
     def X(self):
@@ -182,7 +184,7 @@ class semantico(object):
 
     def buscar(self, token):
         print("Função Buscar")
-        global tabelaDeSimbolos, msg, posicoes
+        global tabelaDeSimbolos, msg
         key = token[0]
         if (key in tabelaDeSimbolos):
             return True
@@ -194,12 +196,22 @@ class semantico(object):
         global posicoes, tabelaDeSimbolos
         for p in posicoes:
             tabelaDeSimbolos[p][2] = tipo
+        return True
 
-    def igualdade(self, key):
+    def igualdade(self, token):
         print("Função Igualdade")
-        global posicoes
-        print(posicoes)
-        if (tabelaDeSimbolos[key][2] == posicoes[0]):
+        global msg, firstID, tipo, tabelaDeSimbolos
+        print("Tipo = ", tipo)
+        if(firstID == True):
+            tipo = tabelaDeSimbolos[token[0]][2]
+            print("O ID", token[0], "é o", "FirstID")
+            print("tipo = ", tipo)
+            firstID = False
             return True
-        msg += "-Tipos diferentes"
+        elif (tabelaDeSimbolos[token[0]][2] == tipo):
+            print("Igualdade de Tipo está OK")
+            return True
+        msg += "\n-Tipos diferentes\n"
+        msg += "-ID na Tabela: "
+        msg += str(tabelaDeSimbolos[token[0]])
         return False
